@@ -6,6 +6,7 @@ services:
       dockerfile: Rio.API/LocalDockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - DB_CONNECTION_STRING=${DB_CONNECTION_STRING}
       - KEYSTONE_HOST=${KEYSTONE_HOST}
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_PORT=${SMTP_PORT}

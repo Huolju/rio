@@ -8,6 +8,7 @@ services:
     build:
       args:
         source: ${DOCKER_BUILD_SOURCE}
+      dockerfile: Rio.API/LocalDockerfile
     ports:
       - "8788:80"
       - "8789:443"

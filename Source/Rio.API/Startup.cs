@@ -121,12 +121,15 @@ namespace Rio.API
 
             services.AddSingleton(x => new SitkaSmtpClientService(rioConfiguration));
 
-            services.AddHttpClient("OpenETClient", c =>
-            {
-                c.BaseAddress = new Uri(rioConfiguration.OpenETAPIBaseUrl);
-                c.Timeout = new TimeSpan(60 * TimeSpan.TicksPerSecond);
-                c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(rioConfiguration.OpenETAPIKey);
-            });
+            if (rioConfiguration.AllowOpenETSync)
+            { 
+                services.AddHttpClient("OpenETClient", c =>
+                {
+                    c.BaseAddress = new Uri(rioConfiguration.OpenETAPIBaseUrl);
+                    c.Timeout = new TimeSpan(60 * TimeSpan.TicksPerSecond);
+                    c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(rioConfiguration.OpenETAPIKey);
+                });
+            }
 
             services.AddHttpClient("GenericClient", c =>
             {
