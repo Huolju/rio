@@ -4,7 +4,7 @@ import { NgModule, APP_INITIALIZER, ErrorHandler } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
-import { OAuthModule } from 'angular-oauth2-oidc';
+import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 import { CookieService } from 'ngx-cookie-service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptors/auth-interceptor';
@@ -22,7 +22,6 @@ import { PostingListComponent } from './pages/posting-list/posting-list.componen
 import { PostingNewComponent } from './pages/posting-new/posting-new.component';
 import { PostingDetailComponent } from './pages/posting-detail/posting-detail.component';
 import { ParcelDetailComponent } from './pages/parcel-detail/parcel-detail.component';
-import { ParcelEditAllocationComponent } from './pages/parcel-edit-allocation/parcel-edit-allocation.component';
 import { LandownerDashboardComponent } from './pages/landowner-dashboard/landowner-dashboard.component';
 import { TradeDetailComponent } from './pages/trade-detail/trade-detail.component';
 import { RegisterTransferComponent } from './pages/register-transfer/register-transfer.component';
@@ -46,8 +45,6 @@ import { SetWaterAllocationComponent } from './pages/set-water-allocation/set-wa
 import { GlossaryComponent } from './pages/glossary/glossary.component';
 import { ParcelChangeOwnerComponent } from './pages/parcel-change-owner/parcel-change-owner.component';
 import { SelectDropDownModule } from 'ngx-select-dropdown'
-import { MyDatePickerModule } from 'mydatepicker';
-import { ParcelOverrideEtDataComponent } from './pages/parcel-override-et-data/parcel-override-et-data.component';
 import { AccountListComponent } from './pages/account-list/account-list.component';
 import { AccountDetailComponent } from './pages/account-detail/account-detail.component';
 import { AccountEditComponent } from './pages/account-edit/account-edit.component';
@@ -65,7 +62,6 @@ import { AboutGroundwaterEvaluationComponent } from './pages/about-groundwater-e
 import { WaterTradingScenarioComponent } from './pages/water-trading-scenario/water-trading-scenario.component';
 import { ManagedRechargeScenarioComponent } from './pages/managed-recharge-scenario/managed-recharge-scenario.component';
 import { RolesAndPermissionsComponent } from './pages/roles-and-permissions/roles-and-permissions.component';
-import { WaterTypeEditComponent } from './pages/water-type-edit/water-type-edit.component';
 import { TrainingVideosComponent } from './pages/training-videos/training-videos.component';
 import { CreateUserProfileComponent } from './pages/create-user-profile/create-user-profile.component';
 import { WaterAccountsAddComponent } from './pages/water-accounts-add/water-accounts-add.component';
@@ -79,6 +75,9 @@ import { GlobalErrorHandlerService } from './shared/services/global-error-handle
 import { ParcelUpdateLayerComponent } from './pages/parcel-update-layer/parcel-update-layer.component';
 import { ParcelListInactiveComponent } from './pages/parcel-list-inactive/parcel-list-inactive.component';
 import { AccountReconciliationComponent } from './pages/account-reconciliation/account-reconciliation.component';
+import { ParcelLedgerCreateComponent } from './pages/parcel-ledger-create/parcel-ledger-create.component';
+import { WaterTypeEditComponent } from './pages/water-type-edit/water-type-edit.component';
+import { CookieStorageService } from './shared/services/cookies/cookie-storage.service';
 
 export function init_app(appLoadService: AppInitService, appInsightsService: AppInsightsService) {
   return () => appLoadService.init().then(() => {
@@ -103,7 +102,6 @@ export function init_app(appLoadService: AppInitService, appInsightsService: App
     PostingNewComponent,
     PostingDetailComponent,
     ParcelDetailComponent,
-    ParcelEditAllocationComponent,
     LandownerDashboardComponent,
     TradeDetailComponent,
     RegisterTransferComponent,
@@ -118,7 +116,6 @@ export function init_app(appLoadService: AppInitService, appInsightsService: App
     SetWaterAllocationComponent,
     GlossaryComponent,
     ParcelChangeOwnerComponent,
-    ParcelOverrideEtDataComponent,
     AccountListComponent,
     AccountDetailComponent,
     AccountEditComponent,
@@ -143,7 +140,8 @@ export function init_app(appLoadService: AppInitService, appInsightsService: App
     OpenetSyncWaterYearMonthStatusListComponent,
     ParcelUpdateLayerComponent,
     ParcelListInactiveComponent,
-    AccountReconciliationComponent
+    AccountReconciliationComponent,
+    ParcelLedgerCreateComponent
   ],
   imports: [
     AppRoutingModule,
@@ -159,7 +157,6 @@ export function init_app(appLoadService: AppInitService, appInsightsService: App
     BrowserAnimationsModule,
     AgGridModule.withComponents([]),
     SelectDropDownModule,
-    MyDatePickerModule,
     NgxPaginationModule
   ],  
   providers: [
@@ -171,6 +168,10 @@ export function init_app(appLoadService: AppInitService, appInsightsService: App
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandlerService
+    },
+    {
+      provide: OAuthStorage,
+      useClass: CookieStorageService
     }
   ],
   entryComponents: [LinkRendererComponent, FontAwesomeIconLinkRendererComponent, MultiLinkRendererComponent],
